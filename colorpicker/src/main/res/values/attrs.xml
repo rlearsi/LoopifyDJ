@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- CircleView Custom Styling -->
+    <declare-styleable name="BaseCircleView">
+
+        <!-- A color that will fill empty space between circle and border -->
+        <attr name="cv_fillColor" format="color"/>
+        <!-- Specify radius if circle suppose to be not a full size of a view -->
+        <attr name="cv_fillRadius" format="dimension"/>
+        <!-- Whether or not to draw a border around the view. -->
+        <attr name="cv_border" format="boolean"/>
+        <!-- The color of the border draw around the view. (if enabled) -->
+        <attr name="cv_borderColor" format="color"/>
+        <!-- Border width. (if enabled) -->
+        <attr name="cv_borderWidth" format="dimension"/>
+        <!-- Whether or not to draw a selector on this view upon touch events. -->
+        <attr name="cv_selectable" format="boolean"/>
+        <!-- The color of the selector stroke drawn around the view upon touch events. (if enabled) -->
+        <attr name="cv_selectBorderColor" format="color"/>
+        <!-- The selector stroke drawn around the view upon touch events. (if enabled) -->
+        <attr name="cv_selectBorderWidth" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleView" parent="@declare-styleable/BaseCircleView">
+
+        <!-- Circle's background color -->
+        <attr name="cv_color" format="color"/>
+
+        <!-- Circle's background color on touch and select events. (if enabled) -->
+        <attr name="cv_selectColor" format="color"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="TwoColorsCircleView" parent="@declare-styleable/BaseCircleView">
+
+        <!-- Circle's first background color -->
+        <attr name="cv_firstColor" format="color"/>
+
+        <!-- Circle's second background color -->
+        <attr name="cv_secondColor" format="color"/>
+
+        <!-- Starting angle (in degrees) where the arc begins. Corresponds to Canvas.drawArc param. -->
+        <attr name="cv_firstColorStartAngle" format="float"/>
+
+        <!-- Sweep angle (in degrees) measured clockwise. Corresponds to Canvas.drawArc param. -->
+        <attr name="cv_firstColorSweepAngle" format="float"/>
+
+        <!-- Starting angle (in degrees) where the arc begins. Corresponds to Canvas.drawArc param. -->
+        <attr name="cv_secondColorStartAngle" format="float"/>
+        <!-- Sweep angle (in degrees) measured clockwise. Corresponds to Canvas.drawArc param. -->
+        <attr name="cv_secondColorSweepAngle" format="float"/>
+
+        <!-- If true, include the center of the oval in the arc, and
+        close it if it is being stroked. This will draw a wedge. Corresponds to Canvas.drawArc param. -->
+        <attr name="cv_useCenter" format="boolean"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="CircleViewStyle">
+        <attr name="circleViewDefault" format="reference"/>
+    </declare-styleable>
+
+</resources>
