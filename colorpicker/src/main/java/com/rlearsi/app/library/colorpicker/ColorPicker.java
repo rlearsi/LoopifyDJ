@@ -2,13 +2,14 @@ package com.rlearsi.app.library.colorpicker;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AlertDialog;
-
-import java.util.Arrays;
 
 public class ColorPicker {
 
@@ -17,11 +18,13 @@ public class ColorPicker {
     View view;
     AlertDialog dialog;
     private ColorPickerListener colorPickerListener;
-    //ColorPickerListener colorPickerInterface;
+    ColorPickerListener colorPickerInterface;
     private String[] colors;
     private String title;
     private boolean cancelable = true;
     private int closeButton = View.VISIBLE;
+    private GridView gridView;
+    private Button button;
 
     public ColorPicker (final Context context) {
 
@@ -32,41 +35,49 @@ public class ColorPicker {
     public void openColorPicker() {
 
         factory = LayoutInflater.from(context);
-        view = factory.inflate(R.layout.color_picker_alert, null);
+        view = factory.inflate(R.layout.color_picker_layout, null);
         dialog = new AlertDialog.Builder(context).create();
-        //dialog.setTitle(title);
-        dialog.setView(view);
+        dialog.setTitle(title);
 
-        ImageButton close = view.findViewById(R.id.close);
-        close.setVisibility(closeButton);
+        gridView = view.findViewById(R.id.rv_colors);
 
-        Log.i("xdjx", "Lista de Cores: " + Arrays.toString(colors));
+        gridView.setNumColumns(4);
+        gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+        gridView.setGravity(Gravity.CENTER);
+        gridView.setVerticalSpacing(16);
+        gridView.setHorizontalSpacing(16);
+        gridView.setFocusable(true);
+        gridView.requestFocus();
 
-        dialog.show();
-        dialog.setCancelable(cancelable);
+        ColorAdapter colorAdapter = new ColorAdapter(context, colors);
+        gridView.setAdapter(colorAdapter);
 
-        close.setOnClickListener(v -> {
+        gridView.setOnItemClickListener((parent, view2, position, id) -> {
 
-            // ação a ser executada quando o botão é clicado
+            if (colorPickerListener != null) {
+
+                colorPickerListener.onColorSelected(colors[position]);
+
+            }
+
             dialog.dismiss();
-
-            onColorSelected("magenta");
 
         });
 
-    }
+        dialog.setView(view);
+        dialog.setCancelable(cancelable);
 
-    private void onColorSelected(String color) {
+        dialog.show();
 
-        if (colorPickerListener != null) {
+        ImageButton close = view.findViewById(R.id.close_button);
+        close.setVisibility(closeButton);
 
-            colorPickerListener.onColorSelected(color);
-
-        }
+        close.setOnClickListener(v -> dialog.dismiss());
 
     }
 
     public void setColorPickerListener(ColorPickerListener listener) {
+        Log.i("xdjx", "setColorPickerListener");
         this.colorPickerListener = listener;
     }
 
@@ -86,13 +97,4 @@ public class ColorPicker {
         this.closeButton = closeButton ? View.VISIBLE : View.GONE;
     }
 
-    /*public void onClick(View id) {
-
-        dialog.dismiss();
-        colorPickerInterface.onColorSelected(1, 2, colors);
-
-    }
-
-    public void onClick() {
-    }*/
 }

@@ -18,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.rlearsi.app.library.colorpicker.CircleView;
+import com.rlearsi.app.library.colorpicker.ColorAdapter;
 import com.rlearsi.app.library.colorpicker.ColorPicker;
 import com.rlearsi.app.library.colorpicker.ColorPickerListener;
 import com.rlearsi.app.music.dj.loop.loopifydj.databinding.ActivityMainBinding;
@@ -36,7 +37,6 @@ import com.rlearsi.app.music.dj.loop.loopifydj.events.Adapter;
 import com.rlearsi.app.music.dj.loop.loopifydj.events.Items;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements InterfaceUpdates 
     MediaPlayer mediaPlayer;
     ImageView button;
     DisplayMetrics metrics;
-    CircleView circle;
     ColorPicker colorPicker;
 
     @Override
@@ -79,6 +78,26 @@ public class MainActivity extends AppCompatActivity implements InterfaceUpdates 
         contentMain();
 
         colorPicker = new ColorPicker(context);
+        //colorPicker.setColorPickerListener(colorPickerListener);
+
+    }
+
+    @Override
+    public void alertDialogColor(int position, int id) {
+
+        String[] colors = new String[]{"#0dc75a", "#f90b56", "#f3b919", "#7f00d9", "#1acbf7", "#ff74b7"};
+
+        colorPicker.setColors(colors);
+        colorPicker.setTitle("Choose a color");
+        colorPicker.setCancelable(true);
+
+        colorPicker.setColorPickerListener(color -> {
+
+            Log.i("xdjx", "Obrigado chat GPT: " + color);
+
+        });
+
+        colorPicker.openColorPicker();
 
     }
 
@@ -244,23 +263,6 @@ public class MainActivity extends AppCompatActivity implements InterfaceUpdates 
         builder.setOnDismissListener(v -> button.setClickable(false));
 
     }
-
-    @Override
-    public void alertDialogColor(int position, int id) {
-
-        String[] color = new String[]{"branco", "marrom"};
-
-        colorPicker.setColors(color);
-        colorPicker.openColorPicker();
-
-        colorPicker.setColorPickerListener((color1) -> {
-
-            Log.i("xdjx", "Chamou onColorSelected: " + color1 + ", id: " + id + ", posição: " + position);
-
-        });
-
-    }
-
 
     @Override
     public void handleAlertOptions(int position, int id, int type, Items itens) {
