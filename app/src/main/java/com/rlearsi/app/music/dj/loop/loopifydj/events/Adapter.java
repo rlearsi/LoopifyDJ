@@ -1,5 +1,6 @@
 package com.rlearsi.app.music.dj.loop.loopifydj.events;
 
+import static android.content.ContentValues.TAG;
 import static com.rlearsi.app.music.dj.loop.loopifydj.MyVars.ADD_TO_FAV;
 import static com.rlearsi.app.music.dj.loop.loopifydj.MyVars.REMOVE_FAV;
 import static com.rlearsi.app.music.dj.loop.loopifydj.MyVars.REMOVE_LOOP;
@@ -11,6 +12,7 @@ import android.content.ContextWrapper;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.rlearsi.app.music.dj.loop.loopifydj.InterfaceUpdates;
 import com.rlearsi.app.music.dj.loop.loopifydj.R;
 
+import java.util.EventListener;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Holder> {
@@ -100,14 +103,14 @@ public class Adapter extends RecyclerView.Adapter<Holder> {
 
             //menu.setHeaderTitle(title);
 
-            menu.add(R.string.add_to_fav).setOnMenuItemClickListener(item -> {
+            /*menu.add(R.string.add_to_fav).setOnMenuItemClickListener(item -> {
 
                 if (isFav) interfaceUpdates.handleAlertOptions(position, id, REMOVE_FAV, topic);
                 else interfaceUpdates.handleAlertOptions(position, id, ADD_TO_FAV, topic);
 
                 return true;
 
-            });
+            });*/
 
             menu.add(R.string.looping).setOnMenuItemClickListener((item) -> {
 
@@ -140,8 +143,6 @@ public class Adapter extends RecyclerView.Adapter<Holder> {
 
         int position = events.indexOf(event);
         events.set(position, event);
-
-        //holder.box.setAlpha(0.5f);
 
         notifyItemChanged(position);
 

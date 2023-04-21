@@ -15,11 +15,9 @@ import java.util.List;
 public class Dao {
 
     private static DbGateway gw;
-    //private Context context;
 
     public Dao(Context ctx) {
         gw = DbGateway.getInstance(ctx);
-        //this.context = ctx;
     }
 
     public void setFav(int id) {
@@ -27,8 +25,6 @@ public class Dao {
         ContentValues cv = new ContentValues();
 
         cv.put("fav", 1);
-
-        Log.i(MyVars.TAG, "setFav: " + id);
 
         gw.getDatabase().update(DbHelper.TABLE_SOUND, cv, "ID=?", new String[]{id + ""});
 
@@ -40,8 +36,6 @@ public class Dao {
 
         cv.put("fav", 0);
 
-        Log.i(MyVars.TAG, "removeFav: " + id);
-
         gw.getDatabase().update(DbHelper.TABLE_SOUND, cv, "ID=?", new String[]{id + ""});
 
     }
@@ -51,8 +45,6 @@ public class Dao {
         ContentValues cv = new ContentValues();
 
         cv.put("isLoop", 1);
-
-        Log.i(MyVars.TAG, "setLoop: " + id);
 
         gw.getDatabase().update(DbHelper.TABLE_SOUND, cv, "ID=?", new String[]{id + ""});
 
@@ -65,6 +57,16 @@ public class Dao {
         cv.put("isLoop", 0);
 
         gw.getDatabase().update(DbHelper.TABLE_SOUND, cv, "ID=?", new String[]{id + ""});
+
+    }
+
+    public boolean setColor(int id, String color) {
+
+        ContentValues cv = new ContentValues();
+
+        cv.put("color", color);
+
+        return (gw.getDatabase().update(DbHelper.TABLE_SOUND, cv, "ID=?", new String[]{id + ""}) > 0);
 
     }
 
@@ -107,6 +109,32 @@ public class Dao {
         cursor.close();
 
         return list;
+
+    }
+
+    @SuppressLint("Range")
+    public Items returnByID(int id) {
+
+        //List<Items> list = new ArrayList<>();
+        String name = "", file_name = "", color = "";
+        int isLoop = 0, isFav = 0;
+
+        Cursor cursor = gw.getDatabase().rawQuery("SELECT ID, name, file_name, color, isLoop, fav FROM "
+                + DbHelper.TABLE_SOUND + " WHERE ID = " + id + " LIMIT 1", null);
+
+        if (cursor.moveToFirst()) {
+
+            name = cursor.getString(cursor.getColumnIndex("name"));
+            file_name = cursor.getString(cursor.getColumnIndex("file_name"));
+            color = cursor.getString(cursor.getColumnIndex("color"));
+            isLoop = cursor.getInt(cursor.getColumnIndex("isLoop"));
+            isFav = cursor.getInt(cursor.getColumnIndex("fav"));
+
+        }
+
+        cursor.close();
+
+        return new Items(id, name, file_name, color, isLoop == 1, isFav == 1);
 
     }
 

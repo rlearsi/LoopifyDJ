@@ -23,8 +23,4 @@
 
     <style name="Theme.LoopifyDJ.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Theme.LoopifyDJ.Background">
-        <item name="android:background">@android:color/white</item>
-    </style>
-
 </resources>

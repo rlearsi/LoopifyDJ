@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,9 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.rlearsi.app.library.colorpicker.ColorAdapter;
 import com.rlearsi.app.library.colorpicker.ColorPicker;
-import com.rlearsi.app.library.colorpicker.ColorPickerListener;
 import com.rlearsi.app.music.dj.loop.loopifydj.databinding.ActivityMainBinding;
 import com.rlearsi.app.music.dj.loop.loopifydj.db.Dao;
 import com.rlearsi.app.music.dj.loop.loopifydj.events.Adapter;
@@ -88,16 +86,21 @@ public class MainActivity extends AppCompatActivity implements InterfaceUpdates 
         String[] colors = new String[]{"#0dc75a", "#f90b56", "#f3b919", "#7f00d9", "#1acbf7", "#ff74b7"};
 
         colorPicker.setColors(colors);
-        colorPicker.setTitle("Choose a color");
-        colorPicker.setCancelable(true);
+        //colorPicker.showTitle(false);
+        //colorPicker.setCancelable(false);
+        colorPicker.openColorPicker();
 
         colorPicker.setColorPickerListener(color -> {
 
-            Log.i("xdjx", "Obrigado chat GPT: " + color);
+            //IMPLEMENTE SEU CÓDIGO AQUI
+            if (dao.setColor(id, color)) {
+
+                adapter.updateRow(dao.returnByID(id));
+                colorPicker.setDismiss();
+
+            }
 
         });
-
-        colorPicker.openColorPicker();
 
     }
 
@@ -227,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements InterfaceUpdates 
             goButton.setTextSize(14);
             goButton.setTextColor(Color.parseColor("#FFFFFF"));
             goButton.setText(getString(go_text).toUpperCase());
-            goButton.setBackground(ContextCompat.getDrawable(context, R.drawable.button));
+            //goButton.setBackground(ContextCompat.getDrawable(context, R.drawable.button));
             params.gravity = Gravity.CENTER_HORIZONTAL;
             goButton.setLayoutParams(params);
             goButton.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -310,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements InterfaceUpdates 
         return true;
     }*/
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -324,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements InterfaceUpdates 
 
         return super.onOptionsItemSelected(item);
 
-    }
+    }*/
 
     /*@Override
     public void onBackPressed() {
